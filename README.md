@@ -1,6 +1,6 @@
 # Uptime Kuma
 
-A [labdex](https://github.com/reykimedev/labdex) plugin. Keeps an Uptime Kuma monitor for every service with a link (plan, then apply) and reads their status back, per service and per host. Needs python-socketio (in the Docker image).
+A [labdex](https://github.com/labdex-app/labdex) plugin. Keeps an Uptime Kuma monitor for every service with a link (plan, then apply) and reads their status back, per service and per host. Needs python-socketio (in the Docker image).
 
 **Version** 1.0 · **Works with** labdex >=1.0,<2 · **Plugin id** `uptimekuma`
 
