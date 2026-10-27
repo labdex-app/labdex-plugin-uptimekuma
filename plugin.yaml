@@ -1,0 +1,26 @@
+id: uptimekuma
+name: Uptime Kuma
+kind: integration
+tags: [monitoring, status]
+version: "1.0"
+labdex: ">=1.0,<2"
+description: Keeps an Uptime Kuma monitor for every service with a link (plan, then apply) and reads their status back, per service and per host. Needs python-socketio (in the Docker image).
+settings:
+  - {key: url, label: URL, type: string, required: true, placeholder: "https://kuma.lab.example.net"}
+  - {key: username, label: User name, type: string, required: true}
+  - {key: password, label: Password, type: secret, required: true, help: "An account without two-factor login (Uptime Kuma's API needs a password login)"}
+  - {key: verify_tls, label: Check the TLS certificate, type: bool, default: true}
+  - {key: services, label: Monitor, type: select, default: links, options: [links, tcp], help: "links: services with an http(s) link; tcp: also every other TCP service (port check)"}
+  - {key: interval, label: Check every … seconds, type: int, default: 60, min: 20, max: 86400}
+  - {key: retries, label: Retries before down, type: int, default: 1, min: 0, max: 10}
+  - {key: notifications, label: Notification ids, type: list, help: "Uptime Kuma notification ids to attach to new monitors"}
+  - {key: ignore_tls, label: Accept any certificate (https monitors), type: bool, default: false}
+actions:
+  - {id: test, label: Check connection, mode: run}
+  - {id: sync_monitors, label: Sync monitors, mode: plan, description: "Creates, changes and removes the monitors labdex manages (marked in their description)"}
+  - {id: poll, label: Read status, mode: run, schedulable: true, schedule_default: 2}
+hooks:
+  - {events: ["host.*"], action: sync_monitors}
+widgets:
+  - {id: monitors, label: Uptime Kuma, where: dashboard}
+  - {id: host, label: Monitors, where: host}
